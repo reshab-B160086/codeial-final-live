@@ -208,7 +208,7 @@ code {
   font-size: 40px;
   color: #ece60e;
 }
-nav #user-dp {
+nav .user-dp {
   height: 40px;
 }
 nav .user {
@@ -308,7 +308,7 @@ nav .nav-links ul li:hover {
 /* HOME AND FRIENDSLIST COMPONENT */
 .home {
   padding: 20px 50px;
-  /* display: flex; */
+  display: flex;
   width: 80%;
   margin: 0 auto;
 }
@@ -407,10 +407,6 @@ nav .nav-links ul li:hover {
 }
 .field button:hover {
   cursor: pointer;
-}
-
-.field button:disabled {
-  cursor: not-allowed;
 }
 
 /* SETTINGS and USERPROFILE */

@@ -1,3 +1,3 @@
 import PostList from './PostList';
-
-export { PostList };
+import Navbar from './Navbar';
+export { PostList, Navbar };

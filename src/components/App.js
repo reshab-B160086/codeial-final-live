@@ -1,9 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Routes, Link, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { fetchPosts } from '../actions/posts';
-import { PostList } from '.';
+import { PostList, Navbar } from '.';
+
+const Login = () => {
+  return <div>Login</div>;
+};
+const Signup = () => {
+  return <div>SignUp</div>;
+};
+const Home = () => {
+  return <div>Home</div>;
+};
 
 class App extends React.Component {
   componentDidMount() {
@@ -14,58 +25,28 @@ class App extends React.Component {
     const { posts } = this.props;
     console.log('posts');
     return (
-      <div>
-        <nav className="nav">
-          <div className="left-div">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            />
-          </div>
-          <div className="search-container">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/482/482631.png"
-              alt="search-icon"
-            />
-            <input placeholder="search" />
-            <div className="search-results">
-              <ul>
-                <li className="search-results-row">
-                  <img
-                    src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1644950203~hmac=0875a6207b627a88c1e5ab8153a23c35"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-                <li className="search-results-row">
-                  <img
-                    src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1644950203~hmac=0875a6207b627a88c1e5ab8153a23c35"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="right-nav">
-            <div className="user">
-              <img
-                src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1644950203~hmac=0875a6207b627a88c1e5ab8153a23c35"
-                alt="user-dp"
-              />
-              <span>John Doe</span>
-            </div>
-            <div className="nav-links">
-              <ul>
-                <li>Log in</li>
-                <li>Log out</li>
-                <li>Register</li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <PostList posts={posts} />
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/signup">SignUp</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          </ul>
+          <Routes>
+            {/* <PostList posts={posts} /> */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </div>
+      </Router>
     );
   }
 }

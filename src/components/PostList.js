@@ -12,7 +12,7 @@ class PostList extends Component {
             <div className="post-header">
               <div className="post-avatar">
                 <img
-                  src="https://cdn-icons.flaticon.com/png/512/1144/premium/1144709.png?token=exp=1644946120~hmac=607ed1aa7db5d6ab024935d4fb7310c3"
+                  src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1645030945~hmac=48f406a9ee89734fe9d83123daf59fef"
                   alt="user-pic"
                 />
                 <div>
