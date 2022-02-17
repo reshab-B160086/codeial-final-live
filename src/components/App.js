@@ -4,11 +4,8 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { fetchPosts } from '../actions/posts';
-import { PostList, Navbar, Home, Page404 } from '.';
+import { PostList, Navbar, Home, Page404, Login } from '.';
 
-const Login = () => {
-  return <div>Login</div>;
-};
 const Signup = () => {
   return <div>SignUp</div>;
 };
