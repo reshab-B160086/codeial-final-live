@@ -10,11 +10,19 @@ export function startLogin() {
 
 export function login(email, password) {
   return (dispatch) => {
+    dispatch(startLogin());
     const url = APIUrls.login();
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-type':
+          'application/x-www-form-urlencoded; charset=UTF-8;application/json',
+      },
       body: getFormBody({ email, password }),
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data: ', data);
+      });
   };
 }
