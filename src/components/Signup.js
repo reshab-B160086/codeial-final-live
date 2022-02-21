@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signup } from '../actions/auth';
+import { startSignup, signup } from '../actions/auth';
 
-class Signup extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
-    // this.emailInputRef = React.createRef();
-    // this.passwordInputRef = React.createRef();
     this.state = {
       email: '',
       password: '',
@@ -15,56 +13,42 @@ class Signup extends Component {
     };
   }
 
-  handleEmailChange = (e) => {
+  handleInputChange = (field, value) => {
     this.setState({
-      email: e.target.value,
+      [field]: value,
     });
   };
 
-  handlePasswordChange = (e) => {
-    this.setState({
-      password: e.target.value,
-    });
-  };
-
-  handleConfurmPasswordChange = (e) => {
-    this.setState({
-      confirmPassword: e.target.value,
-    });
-  };
-
-  handleNameChange = (e) => {
-    this.setState({
-      name: e.target.value,
-    });
-  };
-
-  handleSignupButtonClick = (e) => {
-    e.preventDefault();
-    // console.log(this.emailInputRef);
-    // console.log(this.passwordInputRef);
+  onFormSubmit = (event) => {
+    event.preventDefault();
     console.log(this.state);
     const { email, password, confirmPassword, name } = this.state;
-    if (email && password && name && confirmPassword) {
+    if (email && password && confirmPassword && name) {
+      console.log('okokok');
+      this.props.dispatch(startSignup());
       this.props.dispatch(signup(email, password, confirmPassword, name));
     }
   };
-
   render() {
-    console.log(this.props);
-    const { error, inProgress } = this.props.auth;
+    const { error, inProgress, isLoggedIn } = this.props.auth;
     return (
       <form className="login-form">
-        <span className="login-signup-header />">Log In</span>
+        <span className="login-signup-header">Signup</span>
         {error && <div className="alert error-dailog">{error}</div>}
+        <div className="field">
+          <input
+            type="text"
+            placeholder="Name"
+            required
+            onChange={(e) => this.handleInputChange('name', e.target.value)}
+          />
+        </div>
         <div className="field">
           <input
             type="email"
             placeholder="Email"
             required
-            //ref={this.emailInputRef}
-            onChange={this.handleEmailChange}
-            value={this.state.email}
+            onChange={(e) => this.handleInputChange('email', e.target.value)}
           />
         </div>
         <div className="field">
@@ -72,9 +56,7 @@ class Signup extends Component {
             type="password"
             placeholder="Password"
             required
-            //ref={this.passwordInputRef}
-            onChange={this.handlePasswordChange}
-            value={this.state.value}
+            onChange={(e) => this.handleInputChange('password', e.target.value)}
           />
         </div>
         <div className="field">
@@ -82,47 +64,23 @@ class Signup extends Component {
             type="password"
             placeholder="Confirm Password"
             required
-            //ref={this.passwordInputRef}
-            onChange={this.handleConfurmPasswordChange}
-            value={this.state.value}
+            onChange={(e) =>
+              this.handleInputChange('confirmPassword', e.target.value)
+            }
           />
         </div>
         <div className="field">
-          <input
-            type="text"
-            placeholder="Name"
-            required
-            //ref={this.passwordInputRef}
-            onChange={this.handleNameChange}
-            value={this.state.value}
-          />
-        </div>
-        <div className="field">
-          {inProgress ? (
-            <button
-              onClick={this.handleSignupButtonClick}
-              disabled={inProgress}
-            >
-              Signing up..
-            </button>
-          ) : (
-            <button
-              onClick={this.handleSignupButtonClick}
-              disabled={inProgress}
-            >
-              Sign up
-            </button>
-          )}
+          <button onClick={this.onFormSubmit} disabled={inProgress}>
+            SignUp
+          </button>
         </div>
       </form>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  };
-}
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(SignUp);
