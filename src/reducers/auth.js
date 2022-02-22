@@ -1,7 +1,9 @@
 import {
+  AUTHENTICATE_USER,
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
+  LOG_OUT,
   SIGNUP_FAILED,
   SIGNUP_START,
   SIGNUP_SUCCESS,
@@ -38,6 +40,19 @@ export default function auth(state = initialAuthState, action) {
         inProgress: false,
         error: action.error,
       };
+    case AUTHENTICATE_USER:
+      return {
+        ...state,
+        user: action.user,
+        isLoggedIn: true,
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        user: {},
+        isLoggedIn: false,
+      };
+
     default:
       return state;
   }

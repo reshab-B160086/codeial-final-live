@@ -1,9 +1,11 @@
 import { APIUrls } from '../helpers/urls';
 import { getFormBody } from '../helpers/utils';
 import {
+  AUTHENTICATE_USER,
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
+  LOG_OUT,
   SIGNUP_FAILED,
   SIGNUP_START,
   SIGNUP_SUCCESS,
@@ -102,5 +104,18 @@ export function signupSuccessfull(user) {
   return {
     type: SIGNUP_SUCCESS,
     user,
+  };
+}
+
+export function authenticateUser(user) {
+  return {
+    type: AUTHENTICATE_USER,
+    user,
+  };
+}
+
+export function logoutUser() {
+  return {
+    type: LOG_OUT,
   };
 }
