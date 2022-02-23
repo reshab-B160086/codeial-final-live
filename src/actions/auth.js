@@ -79,6 +79,7 @@ export function signup(email, password, confirmPassword, name) {
         console.log('data: ', data);
         if (data.success) {
           // dispatch action to save user
+          localStorage.setItem('token', data.data.token);
           dispatch(signupSuccessfull(data.data.user));
           return;
         }
