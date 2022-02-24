@@ -5,13 +5,20 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      name: props.auth.user.name,
       email: '',
       password: '',
       confirmPassword: '',
       isEditMode: false,
     };
   }
+
+  handleChange = (fieldName, val) => {
+    this.setState({
+      [fieldName]: val,
+    });
+  };
+
   render() {
     const { user } = this.props.auth;
     const { isEditMode } = this.state;
@@ -34,7 +41,7 @@ class Settings extends Component {
           {isEditMode ? (
             <input
               type="text"
-              onChange={() => handleChange()}
+              onChange={(e) => this.handleChange('name', e.target.value)}
               value={this.state.name}
             />
           ) : (
@@ -47,7 +54,7 @@ class Settings extends Component {
             <div className="field-label">New Password</div>
             <input
               type="password"
-              onChange={() => handleChange()}
+              onChange={(e) => this.handleChange('password', e.target.value)}
               value={this.state.password}
             />
           </div>
@@ -58,7 +65,9 @@ class Settings extends Component {
             <div className="field-label">Confirm Password</div>
             <input
               type="password"
-              onChange={() => handleChange()}
+              onChange={(e) =>
+                this.handleChange('confirmPassword', e.target.value)
+              }
               value={this.state.confirmPassword}
             />
           </div>
@@ -68,11 +77,23 @@ class Settings extends Component {
           {isEditMode ? (
             <button className="button save-btn">Save</button>
           ) : (
-            <button className="button edit-btn">Edit profile</button>
+            <button
+              className="button edit-btn"
+              onClick={(e) => this.handleChange('isEditMode', true)}
+            >
+              Edit profile
+            </button>
           )}
         </div>
 
-        {isEditMode && <div className="go-back">Go Back</div>}
+        {isEditMode && (
+          <div
+            className="go-back"
+            onClick={(e) => this.handleChange('isEditMode', false)}
+          >
+            Go Back
+          </div>
+        )}
       </div>
     );
   }
@@ -84,4 +105,4 @@ function mapStateToProps({ auth }) {
   };
 }
 
-export default connnect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(Settings);

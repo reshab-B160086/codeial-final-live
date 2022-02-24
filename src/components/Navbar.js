@@ -50,11 +50,13 @@ class Navbar extends React.Component {
           <div className="right-nav">
             {auth.isLoggedIn && (
               <div className="user">
-                <img
-                  src="https://img.icons8.com/external-linector-lineal-color-linector/344/external-avatar-man-avatar-linector-lineal-color-linector-1.png"
-                  alt="user-dp"
-                  className="user-dp"
-                />
+                <Link to="/settings">
+                  <img
+                    src="https://img.icons8.com/external-linector-lineal-color-linector/344/external-avatar-man-avatar-linector-lineal-color-linector-1.png"
+                    alt="user-dp"
+                    className="user-dp"
+                  />
+                </Link>
                 <span>John Doe</span>
               </div>
             )}

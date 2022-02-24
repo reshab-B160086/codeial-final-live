@@ -10,11 +10,9 @@ import {
 import PropTypes from 'prop-types';
 
 import { fetchPosts } from '../actions/posts';
-import { PostList, Navbar, Home, Page404, Login, Signup } from '.';
+import { PostList, Navbar, Home, Page404, Login, Signup, Settings } from '.';
 import jwt_decode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
-
-const Settings = () => <div>Settings</div>;
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedIn, path, component: Component } = privateRouteProps;
