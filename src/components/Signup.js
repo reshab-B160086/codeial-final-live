@@ -36,8 +36,9 @@ class SignUp extends Component {
   };
   render() {
     const { error, inProgress, isLoggedIn } = this.props.auth;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     if (isLoggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to={from} />;
     }
     return (
       <form className="login-form">

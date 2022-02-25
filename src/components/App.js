@@ -16,13 +16,23 @@ import { authenticateUser } from '../actions/auth';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedIn, path, component: Component } = privateRouteProps;
-
   return (
     <Route
       path={path}
       render={(props) => {
         console.log(isLoggedIn);
-        return isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />;
+        return isLoggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/signup',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );
