@@ -57,7 +57,7 @@ class Navbar extends React.Component {
                     className="user-dp"
                   />
                 </Link>
-                <span>John Doe</span>
+                <span>{auth.user.name}</span>
               </div>
             )}
 

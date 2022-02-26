@@ -13,6 +13,7 @@ import { fetchPosts } from '../actions/posts';
 import { PostList, Navbar, Home, Page404, Login, Signup, Settings } from '.';
 import jwt_decode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
+import { getAuthTokenFromLocalStorage } from '../helpers/utils';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedIn, path, component: Component } = privateRouteProps;
@@ -20,7 +21,7 @@ const PrivateRoute = (privateRouteProps) => {
     <Route
       path={path}
       render={(props) => {
-        console.log(isLoggedIn);
+        console.log(props);
         return isLoggedIn ? (
           <Component {...props} />
         ) : (
@@ -42,7 +43,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem('token');
+    const token = getAuthTokenFromLocalStorage();
 
     if (token) {
       const user = jwt_decode(token);
