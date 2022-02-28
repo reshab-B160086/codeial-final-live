@@ -137,7 +137,7 @@ export function editUserSuccessful(user) {
   };
 }
 
-export function editUserFailed() {
+export function editUserFailed(error) {
   return {
     type: EDIT_USER_FAILED,
     error,
@@ -169,6 +169,7 @@ export function editUser(name, password, confirmPassword, userId) {
           }
           return;
         }
+        console.log('error');
         dispatch(editUserFailed());
       });
   };
