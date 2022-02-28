@@ -14,6 +14,7 @@ import { PostList, Navbar, Home, Page404, Login, Signup, Settings } from '.';
 import jwt_decode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
 import { getAuthTokenFromLocalStorage } from '../helpers/utils';
+import UserProfile from './UserProfile';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedIn, path, component: Component } = privateRouteProps;
@@ -58,6 +59,10 @@ class App extends React.Component {
     }
   }
 
+  User = () => {
+    return <div>USER</div>;
+  };
+
   render() {
     const { posts, auth } = this.props;
     console.log('posts');
@@ -79,6 +84,11 @@ class App extends React.Component {
             <PrivateRoute
               path="/settings"
               component={Settings}
+              isLoggedIn={auth.isLoggedIn}
+            />
+            <PrivateRoute
+              path="/user/:userId"
+              component={UserProfile}
               isLoggedIn={auth.isLoggedIn}
             />
             <Route component={Page404} />

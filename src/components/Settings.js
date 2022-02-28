@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editUser } from '../actions/auth';
+import { clearAuthState, editUser } from '../actions/auth';
 
 class Settings extends Component {
   constructor(props) {
@@ -12,6 +12,10 @@ class Settings extends Component {
       confirmPassword: '',
       isEditMode: false,
     };
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthState());
   }
 
   handleChange = (fieldName, val) => {

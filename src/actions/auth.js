@@ -156,7 +156,7 @@ export function editUser(name, password, confirmPassword, userId) {
         name,
         password,
         confirm_password: confirmPassword,
-        id: userId,
+        _id: userId,
       }),
     })
       .then((response) => response.json())
