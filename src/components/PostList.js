@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import posts from '../reducers/posts';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 class PostList extends Component {
   render() {
@@ -11,10 +12,12 @@ class PostList extends Component {
           <div className="post-wrapper" key={post._id}>
             <div className="post-header">
               <div className="post-avatar">
-                <img
-                  src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1645030945~hmac=48f406a9ee89734fe9d83123daf59fef"
-                  alt="user-pic"
-                />
+                <Link to={`/user/${post.user._id}`}>
+                  <img
+                    src="https://cdn-icons.flaticon.com/png/512/2202/premium/2202112.png?token=exp=1645030945~hmac=48f406a9ee89734fe9d83123daf59fef"
+                    alt="user-pic"
+                  />
+                </Link>
                 <div>
                   <span className="post-author">{post.user.name}</span>
                   <span className="post-time">a minute ago</span>
