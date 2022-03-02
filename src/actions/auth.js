@@ -1,5 +1,5 @@
 import { APIUrls } from '../helpers/urls';
-import { getFormBody } from '../helpers/utils';
+import { getAuthTokenFromLocalStorage, getFormBody } from '../helpers/utils';
 import {
   AUTHENTICATE_USER,
   CLEAR_AUTH_STATE,
@@ -151,6 +151,7 @@ export function editUser(name, password, confirmPassword, userId) {
       method: 'POST',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
       body: getFormBody({
         name,
