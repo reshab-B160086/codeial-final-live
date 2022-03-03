@@ -21,6 +21,10 @@ class UserProfile extends React.Component {
     console.log('params', params);
     const user = profile.user;
 
+    if (profile.inProgress) {
+      return <h1>Loading !!!</h1>;
+    }
+
     return (
       <div className="settings">
         <div className="img-container">
