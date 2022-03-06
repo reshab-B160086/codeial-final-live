@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUserProfile } from '../actions/profile';
+import { APIUrls } from '../helpers/urls';
+import { getAuthTokenFromLocalStorage } from '../helpers/utils';
 import profile from '../reducers/profile';
+import { addFriend } from '../actions/friends';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -33,11 +36,40 @@ class UserProfile extends React.Component {
     return false;
   };
 
+  handleAddFriendClick = async () => {
+    const userId = this.props.match.params.userId;
+    const url = APIUrls.addFriend(userId);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (data.success) {
+      this.setState({
+        success: true,
+      });
+      this.props.dispatch(addFriend(data.data.firendship));
+    } else {
+      this.setState({
+        success: null,
+        error: data.message,
+      });
+    }
+  };
+
   render() {
     const {
       match: { params },
       profile,
     } = this.props;
+    const { success, error } = this.state;
     console.log('props', this.props);
     console.log('params', params);
     const user = profile.user;
@@ -63,10 +95,22 @@ class UserProfile extends React.Component {
         </div>
         <div className="btn-grp">
           {!isUserAFriend ? (
-            <button className="button save-btn">Add Friend</button>
+            <button
+              className="button save-btn"
+              onClick={this.handleAddFriendClick}
+            >
+              Add Friend
+            </button>
           ) : (
             <button className="button save-btn">Remove Friend</button>
           )}
+
+          {success && (
+            <div className="alert success-dailog">
+              Friend added Successfully
+            </div>
+          )}
+          {error && <div className="alert error-dailog">{error}</div>}
         </div>
       </div>
     );
