@@ -4,7 +4,7 @@ import { fetchUserProfile } from '../actions/profile';
 import { APIUrls } from '../helpers/urls';
 import { getAuthTokenFromLocalStorage } from '../helpers/utils';
 import profile from '../reducers/profile';
-import { addFriend } from '../actions/friends';
+import { addFriend, removeFriend } from '../actions/friends';
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class UserProfile extends React.Component {
     this.state = {
       success: null,
       error: null,
+      successMessage: null,
     };
   }
 
@@ -54,8 +55,38 @@ class UserProfile extends React.Component {
     if (data.success) {
       this.setState({
         success: true,
+        successMessage: 'Friend Added Successfully',
       });
       this.props.dispatch(addFriend(data.data.firendship));
+    } else {
+      this.setState({
+        success: null,
+        error: data.message,
+      });
+    }
+  };
+
+  handleRemoveFriendClick = async () => {
+    const userId = this.props.match.params.userId;
+    const url = APIUrls.addFriend(userId);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (data.success) {
+      this.setState({
+        success: true,
+        successMessage: 'Remove friend Successfully',
+      });
+      this.props.dispatch(removeFriend(userId));
     } else {
       this.setState({
         success: null,
@@ -69,7 +100,7 @@ class UserProfile extends React.Component {
       match: { params },
       profile,
     } = this.props;
-    const { success, error } = this.state;
+    const { success, error, successMessage } = this.state;
     console.log('props', this.props);
     console.log('params', params);
     const user = profile.user;
@@ -106,9 +137,7 @@ class UserProfile extends React.Component {
           )}
 
           {success && (
-            <div className="alert success-dailog">
-              Friend added Successfully
-            </div>
+            <div className="alert success-dailog">{successMessage}</div>
           )}
           {error && <div className="alert error-dailog">{error}</div>}
         </div>
