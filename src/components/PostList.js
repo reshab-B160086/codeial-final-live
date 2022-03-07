@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import posts from '../reducers/posts';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { CreatePost } from '.';
 
 class PostList extends Component {
   render() {
     const { posts } = this.props;
     return (
       <div className="posts-list">
+        <CreatePost />
         {posts.map((post) => (
           <div className="post-wrapper" key={post._id}>
             <div className="post-header">
