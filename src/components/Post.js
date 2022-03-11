@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { createComment } from '../actions/posts';
+import { addLike, createComment } from '../actions/posts';
 import Comment from './Comment';
 
 class Post extends Component {
@@ -30,9 +30,16 @@ class Post extends Component {
       comment: e.target.value,
     });
   };
+
+  handlePostLike = () => {
+    const { post, user } = this.props;
+    this.props.dispatch(addLike(post._id, 'Post', user._id));
+  };
+
   render() {
-    const { post } = this.props;
+    const { post, user } = this.props;
     const { comment } = this.state;
+    const isPostLikedByUser = post.likes.includes(user._id);
     return (
       <div className="post-wrapper" key={post._id}>
         <div className="post-header">
@@ -51,10 +58,15 @@ class Post extends Component {
           <div className="post-content">{post.content}</div>
           <div className="post-actions">
             <button className="post-like no-btn" onClick={this.handlePostLike}>
-              <img
-                src="https://cdn-icons.flaticon.com/png/512/2961/premium/2961957.png?token=exp=1644946158~hmac=8dea80a6810aaefb7671a53f35dba8b6"
-                alt="likes-icon"
-              />
+              {isPostLikedByUser ? (
+                <img src="" alt="like-post" />
+              ) : (
+                <img
+                  src="https://cdn-icons.flaticon.com/png/512/2961/premium/2961957.png?token=exp=1644946158~hmac=8dea80a6810aaefb7671a53f35dba8b6"
+                  alt="likes-icon"
+                />
+              )}
+
               <span>{post.likes.length}</span>
             </button>
             <div className="post-comment">
@@ -84,4 +96,10 @@ class Post extends Component {
   }
 }
 
-export default connect()(Post);
+function mapStateToProps({ auth }) {
+  return {
+    user: auth.user,
+  };
+}
+
+export default connect(mapStateToProps)(Post);

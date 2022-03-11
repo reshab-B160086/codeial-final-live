@@ -97,7 +97,7 @@ export function addLike(id, likeType, userId) {
         'Content-type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: getFormBody({ content, post_id: postId }),
+      body: getFormBody({ like_type: likeType, user_id: userId }),
     })
       .then((response) => response.json())
       .then((data) => {
