@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { io } from 'socket.io-client';
+import { connect } from 'react-redux';
 import '../chat.css';
 
 class Chat extends Component {
@@ -8,7 +10,53 @@ class Chat extends Component {
       messages: [],
       typedMessage: '',
     };
+    this.socket = io.connect('http://54.237.158.65:5000');
+    this.userEmail = props.user.email;
+
+    if (this.userEmail) {
+      this.setUpConnection();
+    }
   }
+  setUpConnection = () => {
+    const socketConnection = this.socket;
+    const self = this;
+
+    this.socket.on('connect', function () {
+      console.log('CONNECTION ESTABLISHED');
+      socketConnection.emit('join_room', {
+        user_email: this.userEmail,
+        chatroom: 'codeial',
+      });
+      socketConnection.on('user_joined', function (data) {
+        console.log('NEW USER JOINED', data);
+      });
+    });
+
+    socketConnection.on('receive_message', function (data) {
+      const { messages } = self.state;
+      const messageObj = {};
+      messageObj.content = data.message;
+      if (data.user_email === self.userEmail) {
+        messageObj.self = true;
+      }
+      self.setState({
+        messages: [...messages, messageObj],
+        typedMessage: '',
+      });
+    });
+  };
+
+  handleSubmit = () => {
+    const { typedMessage } = this.state;
+
+    if (typedMessage && this.userEmail) {
+      this.socket.emit('send_message', {
+        message: typedMessage,
+        user_email: this.userEmail,
+        chatroom: 'codeial',
+      });
+    }
+  };
   render() {
     const { typedMessage, messages } = this.state;
     return (
@@ -49,4 +97,10 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+function mapStateToProps({ auth }) {
+  return {
+    user: auth.user,
+  };
+}
+
+export default connect(mapStateToProps)(Chat);
