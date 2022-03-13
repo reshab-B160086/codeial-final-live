@@ -2,14 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { logoutUser } from '../actions/auth';
+import { searchUsers } from '../actions/search';
 
 class Navbar extends React.Component {
   logOut = () => {
     localStorage.removeItem('token');
     this.props.dispatch(logoutUser());
   };
+
+  handleSearch = (e) => {
+    const searchText = e.target.value;
+    this.props.dispatch(searchUsers(searchText));
+  };
   render() {
-    const { auth } = this.props;
+    const { auth, results } = this.props;
     return (
       <div>
         <nav className="nav">
@@ -27,25 +33,24 @@ class Navbar extends React.Component {
               alt="search-icon"
               className="search-icon"
             />
-            <input placeholder="search" />
-            <div className="search-results">
-              <ul>
-                <li className="search-results-row">
-                  <img
-                    src="https://img.icons8.com/external-linector-lineal-color-linector/344/external-avatar-man-avatar-linector-lineal-color-linector-1.png"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-                <li className="search-results-row">
-                  <img
-                    src="https://img.icons8.com/external-linector-lineal-color-linector/344/external-avatar-man-avatar-linector-lineal-color-linector-1.png"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-              </ul>
-            </div>
+            <input placeholder="search" onChange={this.handleSearch} />
+            {results.length > 0 && (
+              <div className="search-results">
+                <ul>
+                  {results.map((users) => (
+                    <li className="search-results-row">
+                      <Link to={`/user/${users._id}`} key={users._id}>
+                        <img
+                          src="https://img.icons8.com/external-linector-lineal-color-linector/344/external-avatar-man-avatar-linector-lineal-color-linector-1.png"
+                          alt="user-dp"
+                        />
+                        <span>{users.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="right-nav">
             {auth.isLoggedIn && (
@@ -86,6 +91,7 @@ class Navbar extends React.Component {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
+    results: state.search.results,
   };
 }
 
