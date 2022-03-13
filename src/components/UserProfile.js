@@ -29,7 +29,7 @@ class UserProfile extends React.Component {
       match: { params: prevParams },
     } = prevProps;
     const {
-      macth: { params: currParams },
+      match: { params: currParams },
     } = this.props;
 
     if (prevParams && currParams && prevParams.userId !== currParams.userId) {
